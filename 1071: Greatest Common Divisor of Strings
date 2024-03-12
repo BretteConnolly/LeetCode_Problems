@@ -1,2 +1,35 @@
-if common_string == short_word:
+class Solution(object):
+    def gcdOfStrings(self, str1, str2):
+        """
+        :type str1: str
+        :type str2: str
+        :rtype: str
+        """
+        common_string = ""
+        if len(str1) < len(str2):
+            short_word = str1
+            long_word = str2
+        else:
+            short_word = str2
+            long_word = str1
+        
+        string_length = len(long_word)
+        even_length = string_length // 2
+        odd_length = string_length // 3
+
+        if string_length % 2 == 0:
+            common_string = long_word[0: even_length]
+            if common_string == short_word:
                 return common_string
+            else:
+                common_string = long_word[0: odd_length]
+                if common_string == short_word[0: odd_length]:
+                    return common_string
+        else:
+            common_string = long_word[0: odd_length]
+            if common_string == short_word:
+                return common_string
+
+        common_string = ""
+        return common_string
+               
