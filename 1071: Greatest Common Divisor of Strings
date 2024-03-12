@@ -1,0 +1,2 @@
+if common_string == short_word:
+                return common_string
