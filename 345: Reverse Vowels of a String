@@ -1,0 +1,48 @@
+#Instructions:
+#Given a string s, reverse only all the vowels in the string and return it.
+#The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+#Example 1:
+#Input: s = "hello"
+#Output: "holle"
+
+#Example 2:
+#Input: s = "leetcode"
+#Output: "leotcede"
+ 
+#Constraints:
+#1 <= s.length <= 3 * 105
+#s consists of printable ASCII characters.
+
+#Solution:
+
+class Solution(object):
+    def reverseVowels(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+
+        vowels = ['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u']
+        new_string = ""
+        new_list = []
+        vowels_in_string = []
+
+        for i in range(0, len(s)):
+            if s[i] not in vowels: #if character is a consonant
+                new_list += s[i]
+            else:
+                vowels_in_string.append(s[i]) #add to the list of vowels
+                new_list += "_" #new list makes space for vowels to be added later
+  
+        vowels_in_string.reverse() #reverse the vowel order
+        vowel_index = 0 #position in the list of vowels
+        for i in range(0, len(new_list)):
+            if new_list[i] == "_": #space for a vowel
+                new_list[i] = vowels_in_string[vowel_index] #add the vowel
+                vowel_index += 1
+
+        for i in range(0, len(new_list)): #convert from list to string
+            new_string += new_list[i]
+
+        return new_string
