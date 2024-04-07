@@ -1,0 +1,50 @@
+#Instructions:
+#You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+#Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+
+#Example 1:
+
+#Input: flowerbed = [1,0,0,0,1], n = 1
+#Output: true
+
+#Example 2:
+
+#Input: flowerbed = [1,0,0,0,1], n = 2
+#Output: false
+ 
+#Constraints:
+
+#1 <= flowerbed.length <= 2 * 104
+#flowerbed[i] is 0 or 1.
+#There are no two adjacent flowers in flowerbed.
+#0 <= n <= flowerbed.length
+
+#Solution:
+
+if n == 0: #there are no new flowers to plant
+            return True
+        if len(flowerbed) == 1: #only space for one flower in flowerbed
+            if flowerbed[0] == 0:
+                return True
+            else:
+                return False
+        if flowerbed[0] == 0 and flowerbed[1] == 0: #two zeros at the beginning of the flowerbed
+            flowerbed[0] = 1
+            n -= 1
+            if n == 0: 
+                return True
+        for i in range(0, len(flowerbed) - 2):
+            if n > 0:
+                if(flowerbed[i] == 0 and flowerbed[i + 1] == 0 and flowerbed[i + 2] == 0): #three empty spots in a row
+                    flowerbed[i + 1] = 1 #new flower will have an empty space on either side
+                    n -= 1
+        if n == 0:
+            return True
+        if flowerbed[len(flowerbed) - 2] == 0 and flowerbed[len(flowerbed) - 1] == 0: #two zeros at the end of the flowerbed
+            flowerbed[len(flowerbed) - 1] = 1
+            n -= 1
+        if n == 0: #if all the new flowers have been planted
+            return True
+        else:
+            return False
