@@ -1,0 +1,55 @@
+#Instructions:
+#Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+#Note that you must do this in-place without making a copy of the array.
+
+#Example 1:
+#Input: nums = [0,1,0,3,12]
+#Output: [1,3,12,0,0]
+
+#Example 2:
+#Input: nums = [0]
+#Output: [0]
+ 
+#Constraints:
+#1 <= nums.length <= 104
+#-231 <= nums[i] <= 231 - 1
+
+#Solution:
+
+class Solution(object):
+    def swap(self, list, index1, index2):
+        temp = list[index1]
+        list[index1] = list[index2]
+        list[index2] = temp
+
+    def moveZeroes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: None Do not return anything, modify nums in-place instead.
+        """
+
+        if nums == []:
+            print("none")
+        elif len(nums) == 1:
+            print(nums)
+        else:
+            zero_counter = 0
+            for num in nums:
+                if num == 0:
+                    zero_counter +=1
+            if zero_counter == 0:
+                print(nums)
+            elif zero_counter == 1:
+                for i in range(0, len(nums) - 1):
+                    if nums[i] == 0:
+                        self.swap(nums, i, i + 1) #move the one zero to the end
+                print(nums)
+            else:
+                for i in range(0, zero_counter): #check the list repeatedly until all zeroes are on the right side and all nonzeroes are on the left
+                    for j in range(0, zero_counter - 1): #swap until 0 is on the right side
+                        if nums[j] == 0 and nums[j + 1] != 0:
+                            self.swap(nums, j, j + 1)
+                    for k in range(zero_counter - 1, len(nums)): #swap until nonzero integer is on the left side
+                        if nums[k] != 0 and nums[k - 1] == 0: #prevents swapping two nonzero numbers
+                            self.swap (nums, k - 1, k)
+        print(nums)
