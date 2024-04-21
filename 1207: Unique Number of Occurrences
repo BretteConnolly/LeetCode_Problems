@@ -17,3 +17,26 @@
 #Constraints:
 #1 <= arr.length <= 1000
 #-1000 <= arr[i] <= 1000
+
+#Solution:
+class Solution(object):
+     def uniqueOccurrences(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: bool
+        """
+
+        _set = set(arr) #gets rid of duplicate values
+        frequencies = [] #list of frequency of each number
+        for item in _set:
+            counter = 0
+            for num in arr: #counts the frequency of each set number in the array
+                if num == item:
+                    counter += 1
+            frequencies.append(counter)
+        
+        unique_frequencies = set(frequencies) #gets rid of duplicate values
+        if len(unique_frequencies) != len(frequencies): #a frequency list longer than its set means it has duplicate values
+            return False
+        else: 
+            return True
