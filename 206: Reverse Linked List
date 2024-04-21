@@ -1,3 +1,7 @@
+#Memory:
+#13.36 MB
+#Beat 99% of users with Python
+
 class Solution(object):
     def reverseList(self, head):
         """
