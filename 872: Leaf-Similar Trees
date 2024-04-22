@@ -1,0 +1,41 @@
+#Speed and Rank:
+#10 ms
+#Beat 93% of users with Python
+
+#Instructions:
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+#Solution:
+class Solution(object):
+    def leafSequence(self, root):
+        leaf_sequence = []
+        if root.left == None and root.right == None: #the node is a leaf
+            leaf_sequence.append(root.val)
+        elif root.left == None: #cannot recurse on the left side, only the right side
+            leaf_sequence = self.leafSequence(root.right)
+        elif root.right == None: #cannot recurse on the right side, only the left side
+            leaf_sequence = self.leafSequence(root.left)
+        else: #recurse on both sides
+            _left = self.leafSequence(root.left)
+            _right = self.leafSequence(root.right)
+            leaf_sequence = _left + _right #complete leaf sequence
+        return leaf_sequence
+
+    def leafSimilar(self, root1, root2):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :rtype: bool
+        """
+        
+        leaf_sequence1 = self.leafSequence(root1) #recursive function
+        leaf_sequence2 = self.leafSequence(root2) #recursive function
+        if leaf_sequence1 == leaf_sequence2:
+            return True
+        else:
+            return False
