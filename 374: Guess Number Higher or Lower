@@ -1,0 +1,59 @@
+#Instructions:
+#We are playing the Guess Game. The game is as follows:
+#I pick a number from 1 to n. You have to guess which number I picked.
+#Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
+#You call a pre-defined API int guess(int num), which returns three possible results:
+#-1: Your guess is higher than the number I picked (i.e. num > pick).
+#1: Your guess is lower than the number I picked (i.e. num < pick).
+#0: your guess is equal to the number I picked (i.e. num == pick).
+#Return the number that I picked.
+
+#Example 1:
+#Input: n = 10, pick = 6
+#Output: 6
+
+#Example 2:
+#Input: n = 1, pick = 1
+#Output: 1
+
+#Example 3:
+#Input: n = 2, pick = 1
+#Output: 1
+ 
+#Constraints:
+#1 <= n <= 231 - 1
+#1 <= pick <= n
+
+#Solution:
+# The guess API is already defined for you.
+# @param num, your guess
+# @return -1 if num is higher than the picked number
+#          1 if num is lower than the picked number
+#          otherwise return 0
+# def guess(num):
+
+class Solution(object):
+    def guess_again(self, lower, higher): #the space between lower and higher (exclusive) is the eligible range
+        num = (higher + lower) // 2 #guess the midpoint of the eligible range
+        if guess(num) == 0: #guess is correct
+            return num
+        elif guess(num) == -1: #guess is too high
+            higher = num #the previous guess becomes the highest number in the eligible range
+            return self.guess_again(lower, higher)
+        elif guess(num) == 1: #guess is too low
+            lower = num #the previous guess becomes the lowest number in the eligible range
+            return self.guess_again(lower, higher)
+        
+
+    def guessNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+
+        if guess(n) == 0: #the picked number is the greatest number
+            return n
+        else: 
+            lower = 0 #the picked number is greater than lower
+            higher = n #the picked number is less than higher
+            return self.guess_again(lower, higher)
