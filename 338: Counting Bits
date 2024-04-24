@@ -1,0 +1,66 @@
+#Instructions:
+#Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+#Example 1:
+#Input: n = 2
+#Output: [0,1,1]
+#Explanation:
+#0 --> 0
+#1 --> 1
+#2 --> 10
+
+#Example 2:
+#Input: n = 5
+#Output: [0,1,1,2,1,2]
+#Explanation:
+#0 --> 0
+#1 --> 1
+#2 --> 10
+#3 --> 11
+#4 --> 100
+#5 --> 101
+
+#Constraints:
+#0 <= n <= 105
+
+#Solution:
+class Solution(object):
+    def decimalToBinary(self, n):
+        power = 0
+        while pow(2, power) < n: #greatest power of 2 that goes into n
+            power += 1
+        binary_array = [] #binary number represented as an array of digits
+        diff = n - pow(2, power) #amount after subtracting the greatest power of 2
+        while power >= 0:
+            if diff >= 0: #if this power of 2 goes into n, or the difference left by the previous computation
+                binary_array.append(1) #add a 1 digit
+                power -= 1
+                diff -= pow(2, power) #start with what is left after that power of 2 is applied
+            else: #this power of 2 does not go into n or the difference left by the previous computation
+                binary_array.append(0) #add a 0 digit
+                power -= 1
+                diff += pow(2, power) #restore the amount that was left over after applying the most recent power of 2 that went into n or the previous computation       
+        return binary_array
+
+    def onesFrequency(self, arr):
+        ones_frequency = 0
+        for i in range(0, len(arr)):
+            if arr[i] == 1: #the digit is a 1
+                ones_frequency += 1
+        return ones_frequency
+
+    def countBits(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
+
+        array_of_binary_numbers = []
+        for i in range (0, n + 1):
+            array_of_binary_numbers.append(self.decimalToBinary(i)) #converts n, and every number smaller than n (down to 0) to binary
+
+        ones_frequency_array = []
+        for arr in array_of_binary_numbers:
+            ones_frequency_array.append(self.onesFrequency(arr)) #number of 1's in each binary number
+
+        return ones_frequency_array
