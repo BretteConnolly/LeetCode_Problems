@@ -33,48 +33,56 @@
 #At most 2 * 105 calls will be made to get and put.
 
 #Solution:
-class LRUCache(object):
+class dll:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.next = None
+        self.prev = None
 
+class LRUCache:
     def __init__(self, capacity):
-        """
-        :type capacity: int
-        """
+        self.head = dll(-1, -1)
+        self.tail = self.head
+        self.hash = {}
         self.capacity = capacity
-        self.hash_map = {}
-        self.use_queue = [] #keeps track of which key has been least recently used
-        
+        self.length = 0
 
     def get(self, key):
-        """
-        :type key: int
-        :rtype: int
-        """
-        if key in self.hash_map:
-            self.use_queue.append(key) #key is being used
-            self.delete_duplicate(self.use_queue) #earlier instances of using key are removed so the queue will reflect only the most recent use of key
-            return self.hash_map[key] #return the value of key
-        else:
-            return -1 
-
+        if key not in self.hash:
+            return -1
+        node = self.hash[key]
+        val = node.val
+        while node.next:
+            node.prev.next = node.next
+            node.next.prev = node.prev
+            self.tail.next = node
+            node.prev = self.tail
+            node.next = None
+            self.tail = node
+        return val
 
     def put(self, key, value):
-        """
-        :type key: int
-        :type value: int
-        :rtype: None
-        """
-        self.use_queue.append(key) #key is being used
-        self.delete_duplicate(self.use_queue) #earlier instances of using key are removed so the queue will reflect only the most recent use of key
-        self.hash_map[key] = value
-        if len(self.hash_map) > self.capacity: #capacity has been exceeded
-            del self.hash_map[self.use_queue[0]] #least recently used (LRU) key is removed from hash_map
-            self.use_queue.pop(0) #use_queue is updated, with a new LRU for next time
-
-
-    def delete_duplicate(self, queue):
-        seen = set()
-        for num in queue:
-            if num not in seen: #first occurrence of num
-                seen.add(num)
-            else: #second occurrence of num
-                queue.remove(num) 
+        if key in self.hash:
+            node = self.hash[key]
+            node.val = value
+            while node.next:
+                node.prev.next = node.next
+                node.next.prev = node.prev
+                self.tail.next = node
+                node.prev = self.tail
+                node.next = None
+                self.tail = node
+        else:
+            node = dll(key, value)
+            self.hash[key] = node
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = node
+            self.length += 1
+            if self.length > self.capacity:
+                remove = self.head.next
+                self.head.next = self.head.next.next
+                self.head.next.prev = self.head
+                del self.hash[remove.key]
+                self.length -= 1
