@@ -1,0 +1,44 @@
+#Instructions:
+#A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+#Given a string s, return true if it is a palindrome, or false otherwise.
+
+#Example 1:
+#Input: s = "A man, a plan, a canal: Panama"
+#Output: true
+#Explanation: "amanaplanacanalpanama" is a palindrome.
+
+#Example 2:
+#Input: s = "race a car"
+#Output: false
+#Explanation: "raceacar" is not a palindrome.
+
+#Example 3:
+#Input: s = " "
+#Output: true
+#Explanation: s is an empty string "" after removing non-alphanumeric characters.
+#Since an empty string reads the same forward and backward, it is a palindrome.
+ 
+#Constraints:
+#1 <= s.length <= 2 * 105
+#s consists only of printable ASCII characters.
+
+#Solution:
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        if s == "" or len(s) == 1: #no character, or one single character, is the same forwards and backwards
+            return True
+        getVals = list([val for val in s if val.isalpha() or val.isnumeric()])
+        s = "".join(getVals) #string now only has alphanumeric characters
+        s = s.lower()
+        i = 0 #starting at the beginning of the string
+        j = len(s) - 1 #starting at the end of the string
+        for k in range(len(s) // 2): #stopping at the middle of the string, when i and j converge
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
