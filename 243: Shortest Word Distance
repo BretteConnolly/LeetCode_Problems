@@ -1,0 +1,55 @@
+#Instructions:
+#Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+#Example 1:
+#Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "coding", word2 = "practice"
+#Output: 3
+
+#Example 2:
+#Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "coding"
+#Output: 1
+
+#Constraints:
+#2 <= wordsDict.length <= 3 * 104
+#1 <= wordsDict[i].length <= 10
+#wordsDict[i] consists of lowercase English letters.
+#word1 and word2 are in wordsDict.
+#word1 != word2
+
+#Solution:
+class Solution(object):
+    def shortestDistance(self, wordsDict, word1, word2):
+        """
+        :type wordsDict: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+
+        count1 = 0
+        count2 = 0
+        for i in range(len(wordsDict)): #searching from the left
+            if count1 != 0 and count2 != 0: #both words have been found
+                break
+            if wordsDict[i] == word1: 
+                count1 = i + 1 #position of word1. i + 1 so the value won't be 0, which would be the same value as if word1 was never found
+            if wordsDict[i] == word2: 
+                count2 = i + 1 #position of word2. i + 1 so the value won't be 0, which would be the same value as if word2 was never found
+        distance1 = abs(count1 - count2)
+
+        #same code as above, but searching from the right
+        count1 = 0
+        count2 = 0
+        for i in range(len(wordsDict) - 1, -1, -1):
+            if count1 != 0 and count2 != 0:
+                break
+            if wordsDict[i] == word1:
+                count1 = i + 1
+            if wordsDict[i] == word2:
+                count2 = i + 1
+        distance2 = abs(count1 - count2)
+
+        if distance1 <= distance2: #does the lowest distance come from traversing from the left or the right?
+            return distance1
+        else:
+            return distance2
