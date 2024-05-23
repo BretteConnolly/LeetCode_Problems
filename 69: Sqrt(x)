@@ -21,28 +21,25 @@
 #0 <= x <= 231 - 1
 
 #Solution:
-class Solution(object):
-    def mySqrt(self, x):
-        """
-        :type x: int
-        :rtype: int
-        """
-
-        if x == 0 or x == 1:
-            return x
+class Solution:
+  def mySqrt(self, x: int) -> int:
+    if x == 0 or x == 1:
+      return x
         #binary search
-        min = 1 #because 1^2 = 1, the square root of another positive integer must be greater than 1
-        max = x / 2 #only 2 can go into its square twice. Other square roots can go in three times, four times, etc., so the quotient of the square and the square root must be less than the square divided by 2.
-        mid = (min + max) / 2
-        while min < max: #when the number is found, the min and max will be the same
-            if floor(mid ** 2) == x: #the square root is found
-                return mid
-            elif mid ** 2 < x:
-                min = mid + 1
-            else:
-                max = mid - 1
-            mid = (min + max) / 2 #the search space halves
-        if min ** 2 > x: #if the number converged on is the ceiling of the root
-            min -= 1 #subtract to find the floor of the root
-        return int(floor(min)) #convert from a float to an integer
+    min = 1 #because 1^2 = 1, the square root of another positive integer must be greater than 1
+    max = x // 2 #only 2 can go into its square twice. Other square roots can go in three times, four times, etc., so the quotient of the square and the square root must be less than the square divided by 2.
+    if max - min == 1:
+      return int(max)
+    mid = (min + max) // 2
+    while min < max: #when the number is found, the min and max will be the same
+      if math.floor(mid ** 2) == x: #the square root is found
+        return int(mid)
+      elif mid ** 2 < x:
+        min = mid + 1
+      else:
+        max = mid - 1
+      mid = (min + max) // 2 #the search space halves
+    if min ** 2 > x: #if the number converged on is the ceiling of the root
+      min -= 1 #subtract to find the floor of the root
+    return int(math.floor(min)) #convert from a float to an integer
         #we exit the loop when binary search has converged on one number, so subsequent operations can be performed on min, mid, or max and get the same answer
